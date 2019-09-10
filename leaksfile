@@ -33,3 +33,6 @@ git()
      command git "$@"
   fi
 }
+
+vim ~/.gitconfig
+alias gl="gitleaks --repo-path=path/to/your/repo -v && git push"
