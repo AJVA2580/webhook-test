@@ -34,7 +34,11 @@ git()
   fi
 }
 
-vim ~/.gitconfig
+open ~/.gitconfig
 alias gl="gitleaks --repo-path=path/to/your/repo -v && git push"
 
-##
+Error: expansion of alias 'gl' failed; 'gitleaks' is not a git command
+The error occured because gitleaks is an external OS command.
+
+solution: Adding ! infront of gitleaks 
+gl = !gitleaks --repo-path=/Users/katherinekruk/Desktop/webhook-test -v && git
