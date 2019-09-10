@@ -11,5 +11,25 @@ Since gitleaks implements pretty consistent return codes (0 means no leaks and 1
 rather than git push, we can just do:
 
 gitleaks --repo-path=path/to/your/repo -v && git push
+
 For those of you who don’t know bash, && lets you run a command if the previous command completed correctly. 
-In our example here, git push will run only if there are no leaks found. We also put -v in there, to be able to see more information about any present leaks.
+In our example here, git push will run only if there are no leaks found. We also put -v in there, 
+to be able to see more information about any present leaks.
+
+This would work, however it is not optimal, since we want our command to be baked into git push. 
+We should not have change our workflow. Therefore, a better option is creating a wrapper function around the git command:
+
+vi ~/.bash_profile
+
+git()
+{
+  if [ $# -gt 0 ] && [ "$1" == "push" ] ; then
+     shift
+     command gitleaks --repo-path=. -v && git exitloop "$@"
+  elif [ $# -gt 0 ] && [ "$1" == "exitloop" ] ; then
+     shift
+     command git push "$@"
+  else
+     command git "$@"
+  fi
+}
