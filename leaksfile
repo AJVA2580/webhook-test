@@ -1,0 +1,15 @@
+Gitleaks is a tool for scanning both local & remote repositories for any kind of sensitive info. 
+It is fast, easy to use and very configurable.
+
+To run it on a remote repository:
+gitleaks --repo=https://github.com/path/to/your/repo
+To run it locally:
+gitleaks --repo-path=path/to/your/repo
+
+To see more examples, visit the wiki page. For our purposes, we want to run it on our local repository before every push. 
+Since gitleaks implements pretty consistent return codes (0 means no leaks and 1 means leaks present) this is actually very easy to do; 
+rather than git push, we can just do:
+
+gitleaks --repo-path=path/to/your/repo -v && git push
+For those of you who don’t know bash, && lets you run a command if the previous command completed correctly. 
+In our example here, git push will run only if there are no leaks found. We also put -v in there, to be able to see more information about any present leaks.
